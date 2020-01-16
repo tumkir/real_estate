@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Flat(models.Model):
@@ -11,9 +12,9 @@ class Flat(models.Model):
     price = models.IntegerField("Цена квартиры", db_index=True)
 
     town = models.CharField("Город, где находится квартира", max_length=50, db_index=True)
-    town_district = models.CharField("Район города, где находится квартира", max_length=50, blank=True, help_text='Чертаново Южное')
-    address = models.TextField("Адрес квартиры", help_text='ул. Подольских курсантов д.5 кв.4')
-    floor = models.CharField("Этаж", max_length=3, help_text='Первый этаж, последний этаж, пятый этаж')
+    town_district = models.CharField("Район города, где находится квартира", max_length=50, blank=True, help_text="Чертаново Южное")
+    address = models.TextField("Адрес квартиры", help_text="ул. Подольских курсантов д.5 кв.4")
+    floor = models.CharField("Этаж", max_length=3, help_text="Первый этаж, последний этаж, пятый этаж")
 
     rooms_number = models.IntegerField("Количество комнат в квартире", db_index=True)
     living_area = models.IntegerField("количество жилых кв.метров", null=True, blank=True, db_index=True)
@@ -25,3 +26,9 @@ class Flat(models.Model):
 
     def __str__(self):
         return f"{self.town}, {self.address} ({self.price}р.)"
+
+
+class Complaint(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, verbose_name="Кто жаловался", related_name="complaints")
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, verbose_name="Квартира, на которую пожаловались", related_name="complaints")
+    complaint_text = models.TextField("Текст жалобы")
