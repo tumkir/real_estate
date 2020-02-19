@@ -21,7 +21,7 @@ class Flat(models.Model):
     has_balcony = models.NullBooleanField("Наличие балкона", db_index=True)
     active = models.BooleanField("Активно-ли объявление", db_index=True)
     construction_year = models.IntegerField("Год постройки здания", null=True, blank=True, db_index=True)
-    new_building = models.NullBooleanField("Квартира в новостройке")
+    new_building = models.NullBooleanField("Квартира в новостройке", db_index=True)
 
     likes = models.ManyToManyField(User, related_name="liked_flats", verbose_name="Кто лайкнул", blank=True)
 
@@ -38,5 +38,5 @@ class Complaint(models.Model):
 class Owner(models.Model):
     owner = models.CharField("ФИО владельца", max_length=200, db_index=True)
     owners_phonenumber = models.CharField("Номер владельца", max_length=20)
-    owner_phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True)
+    owner_phone_pure = PhoneNumberField("Нормализованный номер владельца", blank=True, db_index=True)
     owners_flats = models.ManyToManyField(Flat, related_name="owners", verbose_name="Квартиры в собственности", db_index=True)
