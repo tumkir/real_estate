@@ -8,7 +8,7 @@ def move_owners_to_owner_model(apps, schema_editor):
     Owner = apps.get_model("property", "Owner")
     for owner in Owner.objects.all():
         print(owner)
-        flats = Flat.objects.filter(owner=owner.owner)
+        flats = Flat.objects.filter(owner=owner.owner, owners_phonenumber=owner.owners_phonenumber)
         for flat in flats:
             print(flat)
             owner.owners_flats.add(flat)
