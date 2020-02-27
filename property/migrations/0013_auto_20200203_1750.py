@@ -9,8 +9,7 @@ def move_owners_to_owner_model(apps, schema_editor):
     for owner in Owner.objects.all():
         print(owner)
         flats = Flat.objects.filter(owner=owner.owner, owners_phonenumber=owner.owners_phonenumber)
-        for flat in flats:
-            owner.owners_flats.add(*[flat])
+        owner.owners_flats.add(*flats)
 
 
 class Migration(migrations.Migration):
